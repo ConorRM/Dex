@@ -150,8 +150,8 @@ export const DetailView: React.FC<DetailViewProps> = ({
                     <div className="flex items-center gap-3">
                         <span className="text-xs text-slate-400 font-bold uppercase md:hidden">Collected</span>
                         <div className="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
-                            <input type="checkbox" name="toggle" id="toggle" className="absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer transition-all duration-300 left-0 checked:right-0 checked:border-green-400" checked={isOwned} onChange={() => onToggleOwned(entry.key)} />
-                            <label htmlFor="toggle" className={`block overflow-hidden h-5 rounded-full cursor-pointer transition-colors duration-300 ${isOwned ? 'bg-green-400' : 'bg-slate-600'}`}></label>
+                            <input type="checkbox" name="toggle" id="toggle" className="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer transition-all duration-300 left-0" checked={isOwned} onChange={() => onToggleOwned(entry.key)} />
+                            <label htmlFor="toggle" className={`toggle-label block overflow-hidden h-5 rounded-full cursor-pointer transition-colors duration-300 ${isOwned ? 'bg-green-400' : 'bg-slate-600'}`}></label>
                         </div>
                     </div>
 
@@ -171,12 +171,12 @@ export const DetailView: React.FC<DetailViewProps> = ({
 
             <div className="flex flex-col md:flex-row gap-6">
                 <div className="w-full md:w-1/3 flex flex-col items-center">
-                    <div className={`p-1.5 rounded-xl border relative group cursor-pointer overflow-hidden transition-all duration-300 ${selectedRarity === "MEGA" ? "border-purple-500 shadow-[0_0_15px_rgba(168,85,247,0.4)] bg-slate-800" : selectedRarity === "EX" ? "border-emerald-500 shadow-[0_0_15px_rgba(16,185,129,0.4)] bg-slate-800" : selectedRarity === "GX" ? "border-cyan-500 shadow-[0_0_15px_rgba(6,182,212,0.4)] bg-slate-800" : selectedRarity === "V" ? "border-slate-400 shadow-[0_0_15px_rgba(148,163,184,0.4)] bg-slate-800" : selectedRarity === "VMAX" ? "border-rose-500 shadow-[0_0_15px_rgba(244,63,94,0.5)] bg-slate-800" : selectedRarity === "VSTAR" ? "border-yellow-500 shadow-[0_0_15px_rgba(234,179,8,0.5)] bg-slate-800" : "border-slate-700 bg-slate-800 shadow-2xl"}`} onClick={() => setShowImagePreview(true)}>
+                    <div className={`p-1.5 rounded-xl border relative group cursor-pointer overflow-hidden transition-all duration-300 ${selectedRarity === "MEGA" ? "rarity-mega bg-slate-800" : selectedRarity === "EX" ? "rarity-ex bg-slate-800" : selectedRarity === "GX" ? "rarity-gx bg-slate-800" : selectedRarity === "V" ? "rarity-v bg-slate-800" : selectedRarity === "VMAX" ? "rarity-vmax bg-slate-800" : selectedRarity === "VSTAR" ? "rarity-vstar bg-slate-800" : "border-slate-700 bg-slate-800 shadow-2xl"}`} onClick={() => setShowImagePreview(true)}>
                         <img src={displayImage} alt={entry.name} className="w-full rounded-lg object-contain transition-transform duration-300 group-hover:scale-[1.02]" style={{ maxHeight: '450px' }} onError={(e) => { const target = e.target as HTMLImageElement; target.onerror = null; target.src = "https://tcg.pokemon.com/assets/img/global/tcg-card-back-2x.jpg"; }} />
                         <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity rounded-xl"><div className="bg-white/20 p-3 rounded-full backdrop-blur-sm text-white"><IconZoom /></div></div>
-                        {showingFanArt && <div className="absolute top-4 left-4 text-white text-xs px-2 py-1 rounded-full flex items-center gap-1 shadow-lg font-bold bg-gradient-to-br from-pink-500 to-pink-700 z-10"><IconPalette /> FAN ART</div>}
-                        {showingDream && <div className="absolute top-4 left-4 text-white text-xs px-2 py-1 rounded-full flex items-center gap-1 shadow-lg font-bold bg-gradient-to-br from-amber-500 to-amber-700 z-10"><IconStar /> DREAM</div>}
-                        {showingIdeal && <div className="absolute top-4 left-4 text-white text-xs px-2 py-1 rounded-full flex items-center gap-1 shadow-lg font-bold bg-gradient-to-br from-cyan-500 to-cyan-700 z-10"><IconSparkles /> IDEAL</div>}
+                        {showingFanArt && <div className="absolute top-4 left-4 text-white text-xs px-2 py-1 rounded-full flex items-center gap-1 shadow-lg font-bold fan-art-badge z-10"><IconPalette /> FAN ART</div>}
+                        {showingDream && <div className="absolute top-4 left-4 text-white text-xs px-2 py-1 rounded-full flex items-center gap-1 shadow-lg font-bold dream-badge z-10"><IconStar /> DREAM</div>}
+                        {showingIdeal && <div className="absolute top-4 left-4 text-white text-xs px-2 py-1 rounded-full flex items-center gap-1 shadow-lg font-bold ideal-badge z-10"><IconSparkles /> IDEAL</div>}
                         {binderEntry && <div className={`absolute bottom-4 right-4 px-3 py-1 rounded-full text-xs font-bold shadow-lg border z-10 ${isOwned ? 'bg-green-600 text-white border-green-400' : 'bg-indigo-600 text-white border-indigo-400'}`}>{isOwned ? "IN COLLECTION" : "TARGET"}</div>}
                     </div>
                     <p className="text-xs text-slate-500 mt-2 flex items-center gap-1"><IconZoom /> Tap image to enlarge</p>
@@ -189,13 +189,13 @@ export const DetailView: React.FC<DetailViewProps> = ({
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-3">
                             <div className="sm:col-span-2">
                                 <label className="block text-[10px] text-slate-400 mb-1 font-bold">CARD NAME</label>
-                                <input type="text" className="w-full bg-slate-800/70 border border-slate-700/50 backdrop-blur-sm rounded px-3 py-2 text-white focus:outline-none focus:border-blue-500 text-base md:text-sm" value={manualName} onChange={(e) => setManualName(e.target.value)} placeholder="e.g. Charizard..." />
+                                <input type="text" className="w-full glass-input rounded px-3 py-2 text-white text-base md:text-sm" value={manualName} onChange={(e) => setManualName(e.target.value)} placeholder="e.g. Charizard..." />
                             </div>
                             <div>
                                 <label className="block text-[10px] text-slate-400 mb-1 font-bold">VALUE (£)</label>
                                 <div className="relative">
                                     <div className="absolute left-3 top-2.5 text-slate-500 text-xs"><IconPound /></div>
-                                    <input type="text" className="w-full bg-slate-800/70 border border-slate-700/50 backdrop-blur-sm rounded pl-8 pr-3 py-2 text-white focus:outline-none focus:border-blue-500 font-mono text-base md:text-sm" value={manualValue} onChange={(e) => setManualValue(e.target.value)} placeholder="0.00" />
+                                    <input type="text" className="w-full glass-input rounded pl-8 pr-3 py-2 text-white font-mono text-base md:text-sm" value={manualValue} onChange={(e) => setManualValue(e.target.value)} placeholder="0.00" />
                                 </div>
                             </div>
                         </div>
@@ -213,7 +213,7 @@ export const DetailView: React.FC<DetailViewProps> = ({
                             <div>
                                 <label className="block text-[10px] text-slate-400 mb-1 font-bold">REAL CARD IMAGE</label>
                                 <div className="flex gap-2">
-                                    <input type="text" className="w-full bg-slate-800/70 border border-slate-700/50 backdrop-blur-sm rounded px-3 py-2 text-white focus:outline-none focus:border-blue-500 font-mono text-base md:text-xs" value={manualUrl} onChange={(e) => setManualUrl(e.target.value)} placeholder="Paste REAL card link..." />
+                                    <input type="text" className="w-full glass-input rounded px-3 py-2 text-white font-mono text-base md:text-xs" value={manualUrl} onChange={(e) => setManualUrl(e.target.value)} placeholder="Paste REAL card link..." />
                                     <button onClick={() => handlePaste(setManualUrl)} className="bg-slate-700 hover:bg-slate-600 px-2 rounded text-slate-300"><IconClipboard /></button>
                                     <button onClick={() => setManualUrl('')} className="bg-slate-700 hover:bg-slate-600 px-2 rounded text-slate-300"><IconX /></button>
                                 </div>
@@ -227,11 +227,11 @@ export const DetailView: React.FC<DetailViewProps> = ({
                             </button>
                             
                             {showExtraUrls && (
-                                <div className="space-y-3 bg-slate-900/30 p-3 rounded-lg border border-slate-800">
+                                <div className="space-y-3 animate-zoom bg-slate-900/30 p-3 rounded-lg border border-slate-800">
                                     <div>
                                         <label className="block text-[10px] text-cyan-400 mb-1 font-bold flex items-center gap-1"><IconSparkles size={10} /> IDEAL / ART URL</label>
                                         <div className="flex gap-2">
-                                            <input type="text" className="w-full bg-slate-800/70 border border-slate-700/50 backdrop-blur-sm rounded px-3 py-2 text-white focus:outline-none focus:border-blue-500 font-mono text-base md:text-xs border-cyan-900/30 focus:border-cyan-500" value={idealUrl} onChange={(e) => setIdealUrl(e.target.value)} placeholder="Paste ART link..." />
+                                            <input type="text" className="w-full glass-input rounded px-3 py-2 text-white font-mono text-base md:text-xs border-cyan-900/30 focus:border-cyan-500" value={idealUrl} onChange={(e) => setIdealUrl(e.target.value)} placeholder="Paste ART link..." />
                                             <button onClick={() => handlePaste(setIdealUrl)} className="bg-slate-700 hover:bg-slate-600 px-2 rounded text-slate-300"><IconClipboard /></button>
                                             <button onClick={() => setIdealUrl('')} className="bg-slate-700 hover:bg-slate-600 px-2 rounded text-slate-300"><IconX /></button>
                                         </div>
@@ -240,7 +240,7 @@ export const DetailView: React.FC<DetailViewProps> = ({
                                     <div>
                                         <label className="block text-[10px] text-amber-400 mb-1 font-bold flex items-center gap-1"><IconStar size={10} /> DREAM / CHASE URL</label>
                                         <div className="flex gap-2">
-                                            <input type="text" className="w-full bg-slate-800/70 border border-slate-700/50 backdrop-blur-sm rounded px-3 py-2 text-white focus:outline-none focus:border-blue-500 font-mono text-base md:text-xs border-amber-900/30 focus:border-amber-500" value={dreamUrl} onChange={(e) => setDreamUrl(e.target.value)} placeholder="Paste CHASE link..." />
+                                            <input type="text" className="w-full glass-input rounded px-3 py-2 text-white font-mono text-base md:text-xs border-amber-900/30 focus:border-amber-500" value={dreamUrl} onChange={(e) => setDreamUrl(e.target.value)} placeholder="Paste CHASE link..." />
                                             <button onClick={() => handlePaste(setDreamUrl)} className="bg-slate-700 hover:bg-slate-600 px-2 rounded text-slate-300"><IconClipboard /></button>
                                             <button onClick={() => setDreamUrl('')} className="bg-slate-700 hover:bg-slate-600 px-2 rounded text-slate-300"><IconX /></button>
                                         </div>
@@ -249,7 +249,7 @@ export const DetailView: React.FC<DetailViewProps> = ({
                                     <div>
                                         <label className="block text-[10px] text-pink-400 mb-1 font-bold flex items-center gap-1"><IconPalette size={10} /> FAN ART URL</label>
                                         <div className="flex gap-2">
-                                            <input type="text" className="w-full bg-slate-800/70 border border-slate-700/50 backdrop-blur-sm rounded px-3 py-2 text-white focus:outline-none focus:border-blue-500 font-mono text-base md:text-xs border-pink-900/30 focus:border-pink-500" value={fanArtUrl} onChange={(e) => setFanArtUrl(e.target.value)} placeholder="Paste FAN ART link..." />
+                                            <input type="text" className="w-full glass-input rounded px-3 py-2 text-white font-mono text-base md:text-xs border-pink-900/30 focus:border-pink-500" value={fanArtUrl} onChange={(e) => setFanArtUrl(e.target.value)} placeholder="Paste FAN ART link..." />
                                             <button onClick={() => handlePaste(setFanArtUrl)} className="bg-slate-700 hover:bg-slate-600 px-2 rounded text-slate-300"><IconClipboard /></button>
                                             <button onClick={() => setFanArtUrl('')} className="bg-slate-700 hover:bg-slate-600 px-2 rounded text-slate-300"><IconX /></button>
                                         </div>

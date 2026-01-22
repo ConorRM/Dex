@@ -95,27 +95,23 @@ export const GridView: React.FC<GridViewProps> = ({ entries, searchQuery, binder
                 let badgeClass = "bg-black/60 text-yellow-400";
                 let badgeText = '#' + entry.displayId;
 
-                if (rarity === "MEGA") { cardBorderClass = "border-purple-500 shadow-[0_0_15px_rgba(168,85,247,0.4)]"; badgeClass = "bg-gradient-to-br from-purple-800 to-purple-500 text-white"; badgeText = "MEGA"; } 
-                else if (rarity === "EX") { cardBorderClass = "border-emerald-500 shadow-[0_0_15px_rgba(16,185,129,0.4)]"; badgeClass = "bg-gradient-to-br from-emerald-800 to-emerald-500 text-white"; badgeText = "EX"; } 
-                else if (rarity === "GX") { cardBorderClass = "border-cyan-500 shadow-[0_0_15px_rgba(6,182,212,0.4)]"; badgeClass = "bg-gradient-to-br from-cyan-800 to-cyan-500 text-white"; badgeText = "GX"; } 
-                else if (rarity === "V") { cardBorderClass = "border-slate-400 shadow-[0_0_15px_rgba(148,163,184,0.4)]"; badgeClass = "bg-gradient-to-br from-slate-700 to-slate-400 text-white"; badgeText = "V"; } 
-                else if (rarity === "VMAX") { cardBorderClass = "border-rose-500 shadow-[0_0_15px_rgba(244,63,94,0.5)]"; badgeClass = "bg-gradient-to-br from-rose-800 to-rose-500 text-white"; badgeText = "VMAX"; } 
-                else if (rarity === "VSTAR") { cardBorderClass = "border-yellow-500 shadow-[0_0_15px_rgba(234,179,8,0.5)]"; badgeClass = "bg-gradient-to-br from-yellow-800 to-yellow-500 text-white shadow-sm"; badgeText = "VSTAR"; } 
-                else if (entry.isMega) { cardBorderClass = "border-purple-500 shadow-[0_0_15px_rgba(168,85,247,0.4)]"; badgeClass = "bg-purple-600 text-white"; badgeText = "MEGA"; }
+                if (rarity === "MEGA") { cardBorderClass = "rarity-mega"; badgeClass = "badge-mega"; badgeText = "MEGA"; } 
+                else if (rarity === "EX") { cardBorderClass = "rarity-ex"; badgeClass = "badge-ex"; badgeText = "EX"; } 
+                else if (rarity === "GX") { cardBorderClass = "rarity-gx"; badgeClass = "badge-gx"; badgeText = "GX"; } 
+                else if (rarity === "V") { cardBorderClass = "rarity-v"; badgeClass = "badge-v"; badgeText = "V"; } 
+                else if (rarity === "VMAX") { cardBorderClass = "rarity-vmax"; badgeClass = "badge-vmax"; badgeText = "VMAX"; } 
+                else if (rarity === "VSTAR") { cardBorderClass = "rarity-vstar"; badgeClass = "badge-vstar"; badgeText = "VSTAR"; } 
+                else if (entry.isMega) { cardBorderClass = "mega-glow border-purple-500"; badgeClass = "mega-badge text-white"; badgeText = "MEGA"; }
                 else if (entry.isTrainer) { badgeClass = "bg-indigo-900 text-indigo-200"; badgeText = "TRAINER"; cardBorderClass = "border-indigo-900"; }
 
                 if (isOwned && rarity === "standard" && !entry.isMega) cardBorderClass = "border-green-500";
-                else if (entry.isCustom && rarity === "standard") cardBorderClass = "border-dashed border-blue-400";
+                else if (entry.isCustom && rarity === "standard") cardBorderClass = "extra-border border-blue-400";
 
                 return (
                     <React.Fragment key={entry.key}>
-                        {isTrainerBlockStart && (
-                            <div className="col-span-full flex items-center justify-center opacity-50 my-4">
-                                <div className="w-full h-px bg-[repeating-linear-gradient(90deg,#6366f1_0,#6366f1_4px,transparent_4px,transparent_12px)]"></div>
-                            </div>
-                        )}
+                        {isTrainerBlockStart && <div className="trainer-break trainer-break-top"></div>}
 
-                        <div id={`poke-card-${entry.key}`} onClick={() => onSelect(entry)} className={`group relative bg-slate-800 rounded-lg overflow-hidden cursor-pointer border hover:-translate-y-1 transition-all duration-200 ${cardBorderClass}`}>
+                        <div id={`poke-card-${entry.key}`} onClick={() => onSelect(entry)} className={`card-hover bg-slate-800 rounded-lg overflow-hidden cursor-pointer group relative border ${cardBorderClass}`}>
                             <div className={`absolute top-1 left-1 z-10 px-1.5 py-0.5 rounded text-[10px] font-mono font-bold ${badgeClass}`}>{badgeText}</div>
                             
                             <button 
@@ -127,9 +123,9 @@ export const GridView: React.FC<GridViewProps> = ({ entries, searchQuery, binder
 
                             {!isOwned && entry.isCustom && <div className="absolute top-8 right-2 z-10 text-slate-500 text-[10px] font-bold">EXTRA</div>}
                             
-                            {showingFanArt && !filterSettings.showBase151 && !filterSettings.show1999 && <div className="absolute bottom-1 right-1 z-10 text-white text-[9px] px-1.5 py-0.5 rounded-full flex items-center gap-1 shadow-lg font-bold bg-gradient-to-br from-pink-500 to-pink-700 animate-pulse"><IconPalette size={10} /> ART</div>}
-                            {showingDream && !filterSettings.showBase151 && !filterSettings.show1999 && <div className="absolute bottom-1 right-1 z-10 text-white text-[9px] px-1.5 py-0.5 rounded-full flex items-center gap-1 shadow-lg font-bold bg-gradient-to-br from-amber-500 to-amber-700 animate-pulse"><IconStar size={10} /> DREAM</div>}
-                            {showingIdeal && !filterSettings.showBase151 && !filterSettings.show1999 && <div className="absolute bottom-1 right-1 z-10 text-white text-[9px] px-1.5 py-0.5 rounded-full flex items-center gap-1 shadow-lg font-bold bg-gradient-to-br from-cyan-500 to-cyan-700 animate-pulse"><IconSparkles size={10} /> IDEAL</div>}
+                            {showingFanArt && !filterSettings.showBase151 && !filterSettings.show1999 && <div className="absolute bottom-1 right-1 z-10 text-white text-[9px] px-1.5 py-0.5 rounded-full flex items-center gap-1 shadow-lg font-bold fan-art-badge"><IconPalette size={10} /> ART</div>}
+                            {showingDream && !filterSettings.showBase151 && !filterSettings.show1999 && <div className="absolute bottom-1 right-1 z-10 text-white text-[9px] px-1.5 py-0.5 rounded-full flex items-center gap-1 shadow-lg font-bold dream-badge"><IconStar size={10} /> DREAM</div>}
+                            {showingIdeal && !filterSettings.showBase151 && !filterSettings.show1999 && <div className="absolute bottom-1 right-1 z-10 text-white text-[9px] px-1.5 py-0.5 rounded-full flex items-center gap-1 shadow-lg font-bold ideal-badge"><IconSparkles size={10} /> IDEAL</div>}
 
                             <div className="aspect-[2.5/3.5] bg-slate-900 relative">
                                 <img 
@@ -148,18 +144,14 @@ export const GridView: React.FC<GridViewProps> = ({ entries, searchQuery, binder
                             </div>
                         </div>
 
-                        {isTrainerBlockEnd && (
-                            <div className="col-span-full flex items-center justify-center opacity-50 my-4">
-                                <div className="w-full h-px bg-[repeating-linear-gradient(90deg,#6366f1_0,#6366f1_4px,transparent_4px,transparent_12px)]"></div>
-                            </div>
-                        )}
+                        {isTrainerBlockEnd && <div className="trainer-break trainer-break-bottom"></div>}
                     </React.Fragment>
                 );
             })}
 
             {!searchQuery && (
-                <div onClick={onOpenAddModal} className="group relative bg-slate-800/50 rounded-lg overflow-hidden cursor-pointer border border-dashed border-green-400 flex flex-col items-center justify-center text-green-400 gap-2 aspect-[2.5/3.5] hover:bg-slate-800 transition-colors">
-                    <div className="w-12 h-12 rounded-full bg-green-900/30 flex items-center justify-center group-hover:bg-green-600 group-hover:text-white transition-all"><IconPlus /></div>
+                <div onClick={onOpenAddModal} className="card-hover bg-slate-800/50 rounded-lg overflow-hidden cursor-pointer border add-card-border flex flex-col items-center justify-center text-green-400 gap-2 aspect-[2.5/3.5]">
+                    <div className="w-12 h-12 rounded-full bg-green-900/30 flex items-center justify-center"><IconPlus /></div>
                     <span className="text-sm font-bold text-center px-4">Add Entry</span>
                 </div>
             )}
